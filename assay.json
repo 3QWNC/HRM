@@ -1,0 +1,44 @@
+{
+  "format": 1,
+  "repo": "HRM",
+  "claims": [
+    {
+      "id": "hrm.sudoku-extreme-checkpoint",
+      "claim": "The published Sudoku-Extreme checkpoint evaluates (README: near-perfect accuracy from 1,000 examples).",
+      "tier": "executed",
+      "verify": {
+        "cmd": [
+          "python3",
+          "evaluate.py",
+          "checkpoint=checkpoints/sudoku-extreme/checkpoint"
+        ],
+        "timeout_s": 7200
+      },
+      "establishes": "That the published checkpoint loads and evaluation completes on this machine.",
+      "limit": "Exit 0 only: evaluate.py does not print an accuracy figure this check could match. Unmodified upstream fork (sapientinc/HRM).",
+      "requires": [
+        {
+          "bin": "nvidia-smi",
+          "why": "the README requires a CUDA GPU"
+        },
+        {
+          "python_module": "torch",
+          "why": "PyTorch with CUDA"
+        },
+        {
+          "python_module": "flash_attn",
+          "why": "models/layers.py imports FlashAttention unconditionally"
+        },
+        {
+          "path": "checkpoints/sudoku-extreme",
+          "nonempty": true,
+          "why": "download huggingface.co/sapientinc/HRM-checkpoint-sudoku-extreme first"
+        }
+      ],
+      "provenance": {
+        "kind": "document",
+        "reference": "README.md, Trained Checkpoints and Evaluation"
+      }
+    }
+  ]
+}
